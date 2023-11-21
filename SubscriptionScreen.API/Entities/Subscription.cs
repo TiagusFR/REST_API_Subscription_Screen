@@ -2,28 +2,11 @@
 {
     public class Subscription
     {
-        public Subscription()
-        {
-            Users = new List<User>();
-            IsDeleted = false;
-        }
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public string SubscriptionType { get; set; }
+        public string SubscriptionType { get; set; } //Troque isso para um tipo enum para ficar mais claro para quem for utilizar quais são os tipos que vc deseja
         public DateTime CreationDate { get; set; }
-        public bool IsDeleted { get; set; }
-        public List<User> Users { get; set; }
-
-        public void Update(string name, string subscriptionType, DateTime creationDate)
-        {
-            Name = name;
-            SubscriptionType = subscriptionType;
-            CreationDate = creationDate;
-        }
-
-        public void Delete() 
-        {
-            IsDeleted = true;
-        }
+        public bool IsDeleted { get; set; } = false;
+        public List<User> Users { get; set; } = new List<User>();
     }
 }

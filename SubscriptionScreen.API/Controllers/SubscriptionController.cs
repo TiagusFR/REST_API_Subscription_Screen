@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SubscriptionScreen.API.Controllers.Request;
 using SubscriptionScreen.API.Entities;
 using SubscriptionScreen.API.Persistence;
+using SubscriptionScreen.API.Services;
 
 namespace SubscriptionScreen.API.Controllers
 {
@@ -9,27 +11,30 @@ namespace SubscriptionScreen.API.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        private readonly SubscriptionDbContext _context;
+        // E possivel melhorar ainda mais seu codigo utilizando injeção de dependencia para esse servico que criei deixei como tarefa para vc visto que vc ja estava usando IoC
+        private readonly SubscriptionService _service;
+        private readonly SubscriptionDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public SubscriptionController(SubscriptionDbContext context)
+        public SubscriptionController(SubscriptionDbContext dbContext, IMapper mapper)
         {
-            _context = context;
+            _dbContext = dbContext;
+            _mapper = mapper;
+            _service = new SubscriptionService(_dbContext);
         }
 
         [HttpGet]
-        public IActionResult GetAll() 
+        public IActionResult GetAll()
         {
-            var subscription = _context.Subscriptions.Where(x => !x.IsDeleted).ToList();
-
-            return Ok(subscription);
+            return Ok(_service.GetAll());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            var subscription = _context.Subscriptions.Where(x => x.Id == id);
+            var subscription = _service.GetById(id);
 
-            if (subscription == null) 
+            if (subscription == null)
             {
                 return NotFound();
             }
@@ -38,24 +43,17 @@ namespace SubscriptionScreen.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Subscription subscription)
+        public IActionResult Post(SubscriptionRequestDTO subscription)
         {
-            _context.Subscriptions.Add(subscription);
+            _service.Add(_mapper.Map<Subscription>(subscription));
 
-            return CreatedAtAction(nameof(GetById), new {id = subscription.Id}, subscription);
+            return CreatedAtAction(nameof(GetById), new { id = subscription.Id }, subscription);
         }
 
         [HttpPut("{id}")]
         public IActionResult Update(Guid id, Subscription input)
         {
-            var subscription = _context.Subscriptions.SingleOrDefault(x => x.Id == id);
-
-            if (subscription == null)
-            {
-                return NotFound();
-            }
-
-            subscription.Update(input.Name, input.SubscriptionType, input.CreationDate);
+            _service.Update(id, input);
 
             return NoContent();
         }
@@ -63,14 +61,7 @@ namespace SubscriptionScreen.API.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            var subscription = _context.Subscriptions.SingleOrDefault(x => x.Id == id);
-
-            if (subscription == null)
-            {
-                return NotFound();
-            }
-
-            subscription.Delete();
+            _service.Delete(id);
 
             return NoContent();
         }
