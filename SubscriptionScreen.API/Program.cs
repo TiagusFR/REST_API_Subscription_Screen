@@ -1,10 +1,16 @@
 using SubscriptionScreen.API.Controllers.AutoMapper;
 using SubscriptionScreen.API.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using SubscriptionScreen.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<SubscriptionScreenAPIContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SubscriptionScreenAPIContext") ?? throw new InvalidOperationException("Connection string 'SubscriptionScreenAPIContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddSingleton<SubscriptionDbContext>();
+builder.Services.AddSingleton<UserDbContext>();
 
 
 builder.Services.AddControllers();

@@ -6,20 +6,21 @@ using SubscriptionScreen.API.Persistence;
 using SubscriptionScreen.API.Services;
 
 namespace SubscriptionScreen.API.Controllers
+
 {
-    [Route("api/subscriptions")]
+    [Route("api/users")]
     [ApiController]
-    public class SubscriptionController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly SubscriptionService _service;
-        private readonly SubscriptionDbContext _dbContext;
+        private readonly UserService _service;
+        private readonly UserDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public SubscriptionController(SubscriptionDbContext dbContext, IMapper mapper)
+        public UsersController(UserDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
-            _service = new SubscriptionService(_dbContext);
+            _service = new UserService(dbContext);
         }
 
         [HttpGet]
@@ -31,26 +32,26 @@ namespace SubscriptionScreen.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            var subscription = _service.GetById(id);
+            var user = _service.GetbyId(id);
 
-            if (subscription == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(subscription);
+            return Ok(user);
         }
 
         [HttpPost]
-        public IActionResult Post(SubscriptionRequestDTO request)
+        public IActionResult Post(UserRequestDTO request)
         {
-            var result = _service.Add(_mapper.Map<Subscription>(request));
+            var result = _service.Add(_mapper.Map<User>(request));
 
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(Guid id,UpdateSubscriptionRequestDTO request)
+        public IActionResult Update(Guid id, UpdateUserRequestDTO request)
         {
             _service.Update(id, request);
 

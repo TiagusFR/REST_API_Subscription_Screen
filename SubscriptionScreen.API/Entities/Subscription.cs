@@ -1,11 +1,13 @@
-﻿namespace SubscriptionScreen.API.Entities
+﻿using SubscriptionScreen.API.Entities.Enums;
+
+namespace SubscriptionScreen.API.Entities
 {
     public class Subscription
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
-        public string SubscriptionType { get; set; } //Troque isso para um tipo enum para ficar mais claro para quem for utilizar quais são os tipos que vc deseja
-        public DateTime CreationDate { get; set; }
+        public SubscriptionTypeEnum SubscriptionType { get; set; } = SubscriptionTypeEnum.Standard;
+        public DateTime CreationDate { get; set; } = DateTime.Now;
         public bool IsDeleted { get; set; } = false;
         public List<User> Users { get; set; } = new List<User>();
     }

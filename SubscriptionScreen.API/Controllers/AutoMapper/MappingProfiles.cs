@@ -9,6 +9,7 @@ namespace SubscriptionScreen.API.Controllers.AutoMapper
         public MappingProfiles()
         {
             CreateMap<SubscriptionRequestDTO, Subscription>();
+            CreateMap<UserRequestDTO, User>();
         }
     }
 }

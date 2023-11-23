@@ -1,14 +1,12 @@
-﻿namespace SubscriptionScreen.API.Entities
+﻿namespace SubscriptionScreen.API.Controllers.Request
 {
-    public class User
+    public class UpdateUserRequestDTO
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string Email { get; set; }
         public string Document { get; set; }
         public DateTime Birthday { get; set; }
         public string Password { get; set; }
-        public bool IsDeleted { get; set; } = false;
 
     }
 }
