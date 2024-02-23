@@ -5,7 +5,7 @@ namespace SubscriptionScreen.API.Controllers.Request
 {
     public class UpdateSubscriptionRequestDTO
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public SubscriptionTypeEnum SubscriptionType { get; set; } 
     }
 }

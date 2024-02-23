@@ -1,19 +1,22 @@
-﻿using SubscriptionScreen.API.Controllers.Request;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using SubscriptionScreen.API.Controllers.Request;
 using SubscriptionScreen.API.Entities;
 using SubscriptionScreen.API.Persistence;
 
 namespace SubscriptionScreen.API.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        private readonly UserDbContext _context;
+        private readonly DatabaseContext _context;
 
-        public UserService(UserDbContext context) 
+        public UserService(DatabaseContext context) 
         {
           _context = context;
         }
 
-        public User? GetbyId(Guid id)
+        public User? GetById(Guid id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
@@ -31,7 +34,7 @@ namespace SubscriptionScreen.API.Services
 
         public void Update (Guid id, UpdateUserRequestDTO request)
         {
-            User? userFound = GetbyId(id);
+            User? userFound = GetById(id);
 
             if (userFound == null) 
             {
@@ -47,7 +50,7 @@ namespace SubscriptionScreen.API.Services
 
         public void Delete(Guid id) 
         {
-            User? user = GetbyId(id);
+            User? user = GetById(id);
 
             if (user == null)
             {

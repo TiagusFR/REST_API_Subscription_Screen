@@ -12,15 +12,13 @@ namespace SubscriptionScreen.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserService _service;
-        private readonly UserDbContext _dbContext;
+        private readonly IUserService _service;
         private readonly IMapper _mapper;
 
-        public UsersController(UserDbContext dbContext, IMapper mapper)
+        public UsersController(IUserService service, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _service = service;
             _mapper = mapper;
-            _service = new UserService(dbContext);
         }
 
         [HttpGet]
@@ -32,7 +30,7 @@ namespace SubscriptionScreen.API.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {
-            var user = _service.GetbyId(id);
+            var user = _service.GetById(id);
 
             if (user == null)
             {

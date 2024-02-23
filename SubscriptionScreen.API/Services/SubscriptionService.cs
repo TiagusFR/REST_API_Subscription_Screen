@@ -1,19 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using SubscriptionScreen.API.Controllers.Request;
 using SubscriptionScreen.API.Entities;
 using SubscriptionScreen.API.Persistence;
 
 namespace SubscriptionScreen.API.Services
 {
-    public class SubscriptionService
+    public class SubscriptionService : ISubscriptionService
     {
-        private readonly SubscriptionDbContext _context;
+        private readonly DatabaseContext _context;
 
-        public SubscriptionService(SubscriptionDbContext context)
+        public SubscriptionService(DatabaseContext context)
         {
             _context = context;
         }
 
- 
         public Subscription? GetById(Guid id)
         {
             return _context.Subscriptions.SingleOrDefault(x => x.Id == id);
@@ -27,7 +29,6 @@ namespace SubscriptionScreen.API.Services
         public Subscription Add(Subscription subscription)
         {
             _context.Subscriptions.Add(subscription);
-
             return subscription;
         }
 

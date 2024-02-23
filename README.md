@@ -1,10 +1,14 @@
 Description: 
 
 
-API built in MVC to comport Subscriptions and Users. 
-On this project I'll try to put to work all essencial concepts of the .NET documentation.
-(Dependency Injection, Entity Framework, CodeFirst, Migrations, Repository Pattern, DTOs, AutoMapper)
+REST API built in MVC.
+On this project I'll try to put to work all essencial concepts of the .NET documentation:
 
+-Entity Framework Core 7.0 use of fluent API 
+-Dependency Injection and Mapping Profiles
+-Use of Data Transfer Objects 
+-Code First techniche of Migrations
+-Unit Tests
 
 References of study:
 

@@ -11,15 +11,13 @@ namespace SubscriptionScreen.API.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
-        private readonly SubscriptionService _service;
-        private readonly SubscriptionDbContext _dbContext;
+        private readonly ISubscriptionService _service;
         private readonly IMapper _mapper;
 
-        public SubscriptionController(SubscriptionDbContext dbContext, IMapper mapper)
+        public SubscriptionController(ISubscriptionService service, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _service = service;
             _mapper = mapper;
-            _service = new SubscriptionService(_dbContext);
         }
 
         [HttpGet]
