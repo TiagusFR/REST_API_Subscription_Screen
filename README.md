@@ -4,11 +4,14 @@ Description:
 Project built in MVC to store and manage Subscriptions and Users;
 
 .NET Concetps:
-
 -Entity Framework Core 7.0 , fluent APIs 
+
 -Dependency Injection and Mapping Profiles
+
 -Use of Data Transfer Objects 
+
 -Code First techniche of Migrations
+
 -Unit Tests with XUnity Framework 
 
 
